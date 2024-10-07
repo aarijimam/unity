@@ -63,7 +63,7 @@ namespace Playroom
                 }
             }
 
-            private List<Action<string>> OnQuitCallbacks = new();
+            public List<Action<string>> OnQuitCallbacks = new();
 
 
             private void OnQuitDefaultCallback()
@@ -75,7 +75,7 @@ namespace Playroom
 
                 Players.Remove(id);
             }
-
+            
             [MonoPInvokeCallback(typeof(Action))]
             private void OnQuitWrapperCallback()
             {
@@ -98,15 +98,20 @@ namespace Playroom
                 }
                 else
                 {
-                    OnQuitCallbacks.Add(callback);
-
-                    void Unsubscribe()
-                    {
-                        OnQuitCallbacks.Remove(callback);
-                    }
-
-                    return Unsubscribe;
+                    MockOnPlayerQuitLocal(callback);
                 }
+                
+                
+                OnQuitCallbacks.Add(callback);
+
+                void Unsubscribe()
+                {
+                    OnQuitCallbacks.Remove(callback);
+                }
+
+                return Unsubscribe;
+                
+                
             }
 
             public void SetState(string key, int value, bool reliable = false)

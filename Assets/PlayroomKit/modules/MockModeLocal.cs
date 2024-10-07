@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+
 namespace Playroom
 {
     /// <summary>
@@ -37,6 +38,14 @@ namespace Playroom
             var testPlayer = GetPlayer(PlayerId);
             OnPlayerJoinCallbacks.Add(onPlayerJoinCallback);
             __OnPlayerJoinCallbackHandler(PlayerId);
+        }
+
+        private static void MockOnPlayerQuitLocal(Action<string> onPlayerQuitCallback)
+        {
+            Debug.Log("On Player Quit");
+            var testPlayer = GetPlayer(PlayerId);
+            testPlayer.OnQuitCallbacks.Add(onPlayerQuitCallback);
+            __OnQuitInternalHandler(PlayerId);
         }
 
         private static void MockSetStateLocal(string key, object value)
