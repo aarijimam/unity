@@ -96,22 +96,33 @@ namespace Playroom
                     Debug.LogError("PlayroomKit is not loaded!. Please make sure to call InsertCoin first.");
                     return null;
                 }
+
+                if (IsRunningInBrowser())
+                {
+
+                    {
+                        OnQuitCallbacks.Add(callback);
+
+                        void Unsubscribe()
+                        {
+                            OnQuitCallbacks.Remove(callback);
+                        }
+
+                        return Unsubscribe;
+                    }
+                }
+                
+                if (!isPlayRoomInitialized)
+                {
+                    Debug.LogError("[Mock Mode] Playroom not initialized yet! Please call InsertCoin.");
+                }
                 else
                 {
-                    MockOnPlayerQuitLocal(callback);
-                }
-                
-                
-                OnQuitCallbacks.Add(callback);
-
-                void Unsubscribe()
-                {
-                    OnQuitCallbacks.Remove(callback);
+                    MockOnPlayerQuitBrowser(callback,id);
                 }
 
-                return Unsubscribe;
-                
-                
+                return null;
+
             }
 
             public void SetState(string key, int value, bool reliable = false)

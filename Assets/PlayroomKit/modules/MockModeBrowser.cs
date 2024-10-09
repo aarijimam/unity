@@ -58,6 +58,32 @@ namespace Playroom
             UnityBrowserBridge.Instance.ExecuteJS($"OnPlayerJoin('{gameObjectName}')");
 #endif
         }
+        
+        private static void MockOnPlayerQuitBrowser(Action<string> onPlayerQuitCallback, string playerId)
+        {
+            if (Players.TryGetValue(playerId, out Player player))
+            {
+                (player).OnQuitCallbacks.Add(onPlayerQuitCallback);
+            }
+            else
+            {
+                Debug.LogError("[__OnQuitInternalHandler] Couldn't find player with id " + playerId);
+            }
+
+            var gameObjectName = GetGameObject("devManager").name;
+
+#if UNITY_EDITOR
+            UnityBrowserBridge.Instance.ExecuteJS($"OnPlayerQuit('{gameObjectName}')");
+#endif
+        }
+        
+        // private static void MockOnPlayerQuitLocal(Action<string> onPlayerQuitCallback)
+        // {
+        //     Debug.Log("On Player Quit");
+        //     var testPlayer = GetPlayer(PlayerId);
+        //     testPlayer.OnQuitCallbacks.Add(onPlayerQuitCallback);
+        //     __OnQuitInternalHandler(PlayerId);
+        // }
 
         /// <summary>
         /// This function is used by GetPlayerID in PlayroomKitDevManager, GetPlayer is only invoked
@@ -67,6 +93,11 @@ namespace Playroom
         public static void MockOnPlayerJoinWrapper(string playerId)
         {
             OnPlayerJoinWrapperCallback(playerId);
+        }
+
+        public static void MockOnPlayerQuitWrapper(string playerId)
+        {
+            __OnQuitInternalHandler(playerId);
         }
 
         private static void MockSetStateBrowser(string key, object value, bool reliable)

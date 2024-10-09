@@ -12,6 +12,37 @@ OnPlayerJoin = function (gameObjectName) {
   });
 };
 
+OnPlayerJoin = function (gameObjectName) {
+  Playroom.onPlayerJoin((player) => {
+    unityInstance.SendMessage(gameObjectName, "GetPlayerID", player.id);
+  });
+};
+
+OnPlayerQuit = function (gameObject, playerId) {
+  Playroom.onPlayerJoin((player) => {
+    const players = window._multiplayer.getPlayers();
+
+    reliable = !!reliable;
+
+    if (typeof players !== "object" || players === null) {
+      console.error('The "players" variable is not an object:', players);
+      return null;
+    }
+    const playerState = players[playerId];
+
+    if (!playerState) {
+      console.error("Player with ID", playerId, "not found.");
+      return null;
+    }
+
+    const unsubscribe = playerState.onQuit((playerState) => {
+      unityInstance.SendMessage(gameObjectName, "QuitPlayer", player.id);
+    });
+  });
+}
+
+
+
 // States
 SetState = function (key, value, reliable) {
   reliable = !!reliable;

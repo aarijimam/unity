@@ -58,6 +58,13 @@ namespace Playroom
                 () => MockOnPlayerJoinBrowser(onPlayerJoinCallback));
         }
 
+        private static void MockOnPlayerQuit(Action<string> onPlayerQuitCallback, string playerId)
+        {
+            ExecuteMockModeAction(
+                () => MockOnPlayerQuitLocal(onPlayerQuitCallback, playerId),
+                () => MockOnPlayerQuitBrowser(onPlayerQuitCallback,playerId));
+        }
+
         private static void MockSetState(string key, object value, bool reliable = false)
         {
             ExecuteMockModeAction(

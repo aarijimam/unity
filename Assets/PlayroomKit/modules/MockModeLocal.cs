@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium;
 using UnityEngine;
 
 
@@ -38,6 +39,12 @@ namespace Playroom
             var testPlayer = GetPlayer(PlayerId);
             OnPlayerJoinCallbacks.Add(onPlayerJoinCallback);
             __OnPlayerJoinCallbackHandler(PlayerId);
+        }
+        private static void MockOnPlayerQuitLocal(Action<string> onPlayerJoinCallback, string pla)
+        {
+            Debug.Log("On Player Quit");
+            var testPlayer = GetPlayer(PlayerId);
+            Debug.Log(testPlayer);
         }
 
         private static void MockOnPlayerQuitLocal(Action<string> onPlayerQuitCallback)

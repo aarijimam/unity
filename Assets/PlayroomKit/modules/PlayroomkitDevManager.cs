@@ -62,6 +62,11 @@ namespace Playroom
             PlayroomKit.MockOnPlayerJoinWrapper(playerId);
         }
 
+        private void QuitPlayer(string playerId)
+        {
+            PlayroomKit.MockOnPlayerQuitWrapper(playerId);
+        }
+
         private string InvokeWaitForState(string stateValue)
         {
             Debug.Log(stateValue);
