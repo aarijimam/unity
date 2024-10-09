@@ -19,10 +19,9 @@ OnPlayerJoin = function (gameObjectName) {
 };
 
 OnPlayerQuit = function (gameObject, playerId) {
-  Playroom.onPlayerJoin((player) => {
+    console.log(playerId)
     const players = window._multiplayer.getPlayers();
-
-    reliable = !!reliable;
+    
 
     if (typeof players !== "object" || players === null) {
       console.error('The "players" variable is not an object:', players);
@@ -38,7 +37,6 @@ OnPlayerQuit = function (gameObject, playerId) {
     const unsubscribe = playerState.onQuit((playerState) => {
       unityInstance.SendMessage(gameObjectName, "QuitPlayer", player.id);
     });
-  });
 }
 
 

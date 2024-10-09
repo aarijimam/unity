@@ -61,6 +61,8 @@ namespace Playroom
         
         private static void MockOnPlayerQuitBrowser(Action<string> onPlayerQuitCallback, string playerId)
         {
+            Debug.Log("MockOnPlayerQuitBrowser in Browser Mock Mode");
+            Debug.Log("playerId:" + playerId);
             if (Players.TryGetValue(playerId, out Player player))
             {
                 (player).OnQuitCallbacks.Add(onPlayerQuitCallback);
@@ -71,9 +73,14 @@ namespace Playroom
             }
 
             var gameObjectName = GetGameObject("devManager").name;
+            Debug.Log("playerId:" + playerId);
+            string jsonString;
+            jsonString = JsonUtility.ToJson(playerId);
+            Debug.Log("JsonString:" + jsonString);
+            
 
 #if UNITY_EDITOR
-            UnityBrowserBridge.Instance.ExecuteJS($"OnPlayerQuit('{gameObjectName}')");
+            UnityBrowserBridge.Instance.ExecuteJS($"OnPlayerQuit('{gameObjectName}', '{playerId}')");
 #endif
         }
         

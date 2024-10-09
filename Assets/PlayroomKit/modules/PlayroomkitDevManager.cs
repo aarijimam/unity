@@ -64,6 +64,7 @@ namespace Playroom
 
         private void QuitPlayer(string playerId)
         {
+            print("Quick Callback Received");
             PlayroomKit.MockOnPlayerQuitWrapper(playerId);
         }
 

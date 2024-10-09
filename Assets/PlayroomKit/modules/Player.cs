@@ -79,6 +79,7 @@ namespace Playroom
             [MonoPInvokeCallback(typeof(Action))]
             private void OnQuitWrapperCallback()
             {
+                Debug.Log("On Quit Invoked");
                 if (OnQuitCallbacks != null)
                     foreach (var callback in OnQuitCallbacks)
                         callback?.Invoke(id);
@@ -86,6 +87,7 @@ namespace Playroom
 
             void IPlayerInteraction.InvokeOnQuitWrapperCallback()
             {
+                
                 OnQuitWrapperCallback();
             }
 
@@ -118,6 +120,7 @@ namespace Playroom
                 }
                 else
                 {
+                    Debug.Log("Mock Quit callback initiated");
                     MockOnPlayerQuitBrowser(callback,id);
                 }
 

@@ -6,6 +6,7 @@ using AOT;
 using System;
 using SimpleJSON;
 using System.Collections;
+using OpenQA.Selenium;
 using UBB;
 
 
@@ -759,6 +760,7 @@ namespace Playroom
         [MonoPInvokeCallback(typeof(Action<string>))]
         private static void __OnQuitInternalHandler(string playerId)
         {
+            Debug.Log(" ___OnQuitInternalHandler");
             if (Players.TryGetValue(playerId, out Player player))
             {
                 ((IPlayerInteraction)player).InvokeOnQuitWrapperCallback();
