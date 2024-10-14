@@ -20,7 +20,7 @@ namespace Playroom
 
         public class Player : IPlayerInteraction
         {
-            [Serializable]
+            private IPlayerService _playerService;
             public class Profile
             {
                 [NonSerialized] public UnityEngine.Color color;
@@ -45,10 +45,11 @@ namespace Playroom
             private static int totalObjects = 0;
 
 
-            public Player(string id)
+            public Player(string id, IPlayerService playerService)
             {
                 this.id = id;
                 totalObjects++;
+                _playerService  = playerService;
 
                 if (IsRunningInBrowser())
                 {
@@ -87,7 +88,6 @@ namespace Playroom
 
             void IPlayerInteraction.InvokeOnQuitWrapperCallback()
             {
-                
                 OnQuitWrapperCallback();
             }
 

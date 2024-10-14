@@ -145,43 +145,7 @@ namespace Playroom
 
 
 
-        public static Action OnPlayerJoin(Action<Player> onPlayerJoinCallback)
-        {
-            if (!isPlayRoomInitialized)
-            {
-                Debug.LogError("PlayroomKit is not loaded!. Please make sure to call InsertCoin first.");
-                return null;
-            }
-
-            if (IsRunningInBrowser())
-            {
-                if (!OnPlayerJoinCallbacks.Contains(onPlayerJoinCallback))
-                {
-                    OnPlayerJoinCallbacks.Add(onPlayerJoinCallback);
-                }
-
-                var CallbackID = OnPlayerJoinInternal(__OnPlayerJoinCallbackHandler);
-
-                void Unsubscribe()
-                {
-                    OnPlayerJoinCallbacks.Remove(onPlayerJoinCallback);
-                    UnsubscribeOnPlayerJoin(CallbackID);
-                }
-
-                return Unsubscribe;
-            }
-
-            if (!isPlayRoomInitialized)
-            {
-                Debug.LogError("[Mock Mode] Playroom not initialized yet! Please call InsertCoin.");
-            }
-            else
-            {
-                MockOnPlayerJoin(onPlayerJoinCallback);
-            }
-
-            return null;
-        }
+        x
 
 
         private static void UnsubscribeOnPlayerJoin(string CallbackID)
