@@ -18,13 +18,15 @@ OnPlayerJoin = function (gameObjectName) {
   });
 };
 
-OnPlayerQuit = function (gameObject, playerId) {
+OnPlayerQuit = function (gameObjectName, playerId) {
     console.log(playerId)
     const players = window._multiplayer.getPlayers();
+    console.log(gameObjectName)
     
 
     if (typeof players !== "object" || players === null) {
       console.error('The "players" variable is not an object:', players);
+      
       return null;
     }
     const playerState = players[playerId];
@@ -33,10 +35,37 @@ OnPlayerQuit = function (gameObject, playerId) {
       console.error("Player with ID", playerId, "not found.");
       return null;
     }
-
-    const unsubscribe = playerState.onQuit((playerState) => {
+   
+    const unsubscribe = playerState.onQuit((player) => {
+      console.log("Callback sent");
       unityInstance.SendMessage(gameObjectName, "QuitPlayer", player.id);
     });
+    
+    console.log(unsubscribe);
+  // Add an event listener to detect tab close or window unload
+  window.addEventListener("beforeunload", (event) => {
+    console.log("Tab/window is being closed for player", playerId);
+    unityInstance.SendMessage(gameObjectName, "ConsoleLog", "Tab/window is being closed for player");
+    // Call the onQuit event for the player
+    
+      //playerState.onQuit(playerState); // Manually trigger the quit callback
+      unityInstance.SendMessage(gameObjectName, "QuitPlayer", playerState.id);
+      unityInstance.SendMessage(gameObjectName, "ConsoleLog", "Quit called");
+    
+    
+
+    // Optionally, cancel the default unload event
+    event.preventDefault();
+    event.returnValue = ''; // Older browsers need this to prevent tab close without confirmation
+  });
+
+
+  window.addEventListener("beforeunload", (event) => {
+    alert("The player is about to quit!");  // Shows a dialog before the tab closes
+    event.returnValue = ''; // Necessary for some browsers to show confirmation
+  });
+
+  return unsubscribe; // Return the unsubscribe function if needed
 }
 
 

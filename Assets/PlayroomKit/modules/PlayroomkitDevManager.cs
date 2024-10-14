@@ -59,6 +59,7 @@ namespace Playroom
         // Called from JS side for onPlayerJoin
         private void GetPlayerID(string playerId)
         {
+            Debug.Log("player id from GetPlayerID: " + playerId);
             PlayroomKit.MockOnPlayerJoinWrapper(playerId);
         }
 
@@ -72,6 +73,11 @@ namespace Playroom
         {
             Debug.Log(stateValue);
             return stateValue;
+        }
+        
+        private void ConsoleLog(string log)
+        {
+            Debug.Log(log);
         }
 
 #endif
